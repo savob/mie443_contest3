@@ -8,21 +8,20 @@
 #include <ros/console.h>
 
 int main(int argc, char** argv) {
-    //
     // Setup ROS.
     ros::init(argc, argv, "contest3");
     ros::NodeHandle n;
-    //
+    
     // Frontier exploration algorithm.
     explore::Explore explore;
-    //
+    
     // Class to handle sounds.
     sound_play::SoundClient sc;
-    //
+    
     // The code below shows how to play a sound.
     std::string path_to_sounds = ros::package::getPath("mie443_contest3") + "/sounds/";
     sc.playWave(path_to_sounds + "sound.wav");
-    //
+    
     // The code below shows how to start and stop frontier exploration.
     explore.stop();
     explore.start();

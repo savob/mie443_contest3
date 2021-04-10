@@ -63,7 +63,7 @@ class EmotionClassificationNet(nn.Module):
         batch_size = x.shape[0]
         feats = self.cnn(x)
         out = self.nn(feats.view(batch_size, -1))
-        #
+        
         # If we are testing then return prediction index.
         if test_mode:
             _, out = torch.max(out, 1)
@@ -88,7 +88,7 @@ def getDataloader(args):
     train, val = getDataset(args)
     train_dataset = torch.utils.data.TensorDataset(*train)
     val_dataset = torch.utils.data.TensorDataset(*val)
-    #
+    
     # Due to class imbalance introduce a weighted random sampler to select rare classes more often.
     batch_size = 128
     weights_label = train[1].unique(return_counts=True, sorted=True)[1].float().reciprocal()
@@ -96,7 +96,7 @@ def getDataloader(args):
     for idx, label in enumerate(train[1]):
         weights[idx] = weights_label[label]
     sampler = torch.utils.data.sampler.WeightedRandomSampler(weights, len(weights))
-    #
+    
     # Create the dataloaders for the different datasets.
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
                                             num_workers=2, sampler=sampler)
@@ -113,14 +113,14 @@ def train_loop(mdl, loss_fn, optim, dl, device):
         ims, labels, = ex
         ims = ims.to(device)
         labels = labels.to(device)
-        #
+        
         # Optimization.
         optim.zero_grad()
         outs = mdl(ims)
         loss = loss_fn(outs, labels)
         loss.backward(loss)
         optim.step()
-        #
+        
         # Statistics
         running_loss +=  loss.item()
         nex += 1
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         val_acc = calc_acc(mdl, val_dl, 'val', device)
         print('VAL ACC: ', val_acc)
     else:
-        #
+        
         # Training loop.
         best_val = -float('inf')
         for epoch in range(args.nepoch):
@@ -181,7 +181,7 @@ if __name__ == "__main__":
             train_acc = calc_acc(mdl, train_dl, 'train', device)
             print('Val ACC loop')
             val_acc = calc_acc(mdl, val_dl, 'val', device)
-            #
+            
             # Early stopping.
             if val_acc > best_val:
                 best_val = val_acc

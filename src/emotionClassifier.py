@@ -18,15 +18,15 @@ import matplotlib.pyplot as plt
 class EmotionDetector(object):
 
     def __init__(self, args):
-        #
+        
         # Python 2.7 syntax.
         super(EmotionDetector, self).__init__()
-        #
+        
         # Load your emotion detector.
         self.model = EmotionClassificationNet()
         self.model.load_state_dict(torch.load(args.model_file))
         self.model.eval()
-        #
+        
         # Visualize.
         self.vis = args.vis
         print('Setting up subscribers.')
@@ -55,7 +55,7 @@ class EmotionDetector(object):
                 print('Showing images.')
                 self.showImBatch(imgs)
             emotions = self.model(imgs, True)
-            #
+            
             # Emotion voting -- take the most often voted for emotion, ties are broken arbitrarily.
             uniqueEmotions, counts = emotions.unique(sorted=True, return_counts=True)
             print('uniqueEmotions:', uniqueEmotions)
@@ -69,7 +69,7 @@ class EmotionDetector(object):
 
     def logEmotionHistory(self):
         self.emotion_file.close()
-#
+
 # Parse the input arguments.
 def getInputArgs():
     parser = argparse.ArgumentParser('MIE443_contest3 victim emotion detector.')
@@ -78,8 +78,8 @@ def getInputArgs():
     parser.add_argument('--vis', dest='vis', default=False, action='store_true', help='Visualize the received images.')
     args = parser.parse_args()
     return args
-#
-#
+
+
 if __name__ == "__main__":
     rospy.init_node('emotionDetector')
     args = getInputArgs()
