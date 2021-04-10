@@ -31,4 +31,8 @@
 *.out
 *.app
 
+# Local VS Code Config
 .vscode/
+
+# CNN File
+*.pth
