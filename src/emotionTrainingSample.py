@@ -73,8 +73,12 @@ def getDataset(args):
     import pathlib
     if pathlib.Path('./train_split.pth').exists():
         train_imgs, train_labels = torch.load('train_split.pth')
+
+        # Set a mask to select samples used to validate
         probs = torch.ones(train_imgs.shape[0]) * 0.3
         val_set_mask = torch.bernoulli(probs).bool()
+
+        # Use mask to store validation images and then use the remainder for training
         val_imgs = train_imgs[val_set_mask]
         val_labels = train_labels[val_set_mask]
         train_imgs = train_imgs[~val_set_mask]
@@ -91,10 +95,14 @@ def getDataloader(args):
     
     # Due to class imbalance introduce a weighted random sampler to select rare classes more often.
     batch_size = 128
+
+    # Weigh images on the inverse frequency of their class in the set 
     weights_label = train[1].unique(return_counts=True, sorted=True)[1].float().reciprocal()
     weights = torch.zeros_like(train[1], dtype=torch.float)
     for idx, label in enumerate(train[1]):
         weights[idx] = weights_label[label]
+
+    # Grab data as weighed
     sampler = torch.utils.data.sampler.WeightedRandomSampler(weights, len(weights))
     
     # Create the dataloaders for the different datasets.
