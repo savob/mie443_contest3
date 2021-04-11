@@ -28,8 +28,6 @@ find_package(catkin REQUIRED COMPONENTS
 	kobuki_msgs)
 
 
-
-
 add_message_files(
   FILES
   EmotionMsg.msg
@@ -55,6 +53,7 @@ add_executable(contest3
     src/costmap_client.cpp
     src/explore.cpp
     src/frontier_search.cpp
+    src/emotionHandling.cpp
     )
 target_link_libraries(contest3
     ${catkin_LIBRARIES}

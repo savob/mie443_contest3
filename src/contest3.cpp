@@ -1,7 +1,8 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include "explore.h"
-//
+#include "emotionHandling.h"
+
 // If you cannot find the sound play library try the following command.
 // sudo apt install ros-kinetic-sound-play
 #include <sound_play/sound_play.h>
@@ -25,9 +26,25 @@ int main(int argc, char** argv) {
     // The code below shows how to start and stop frontier exploration.
     explore.stop();
     explore.start();
+
+    // Emotion node
+    ros::Subscriber emotion = n.subscribe("/detected_emotion", 1, &emotionCallback);
+
     while(ros::ok()) {
-        // Your code here.
         ros::spinOnce();
+
+
+        // Check for new emotions
+        if (newEmotion()) {
+            explore.stop();
+
+            int emotionIn = readEmotion();
+            // Handle new emotion
+
+            explore.start();
+        }
+
+
         ros::Duration(0.01).sleep();
     }
     return 0;
