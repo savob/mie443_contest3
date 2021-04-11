@@ -1,6 +1,16 @@
-#include <emotionHandling.h>
+#include "emotionHandling.h"
 
-int32_t emotionValue;   // Stores most recent scanned emotion
+/*
+    0=Angry
+    1=Disgust
+    2=Fear
+    3=Happy
+    4=Sad
+    5=Surprise
+    6=Neutral
+*/
+
+int32_t emotionValue; // Stores most recent scanned emotion
 bool emotionDetected; // Has there been a recent emotion pickup?
 // Set to true after a successful scan, set back to false once read is complete
 
