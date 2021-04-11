@@ -11,7 +11,7 @@
 */
 
 int32_t emotionValue; // Stores most recent scanned emotion
-bool emotionDetected; // Has there been a recent emotion pickup?
+bool emotionDetected; // Has there been a recent (unused) emotion pickup?
 // Set to true after a successful scan, set back to false once read is complete
 
 // Act whenever we've detected an emotion present

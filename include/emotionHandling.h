@@ -19,11 +19,8 @@ bool newEmotion(void); // Returns if there has been a recent (unread) scan
     6=Neutral
 */
 
-/* 
-    Can't include variable here as globals for some reason keeps causing issues 
-    due to "multiple declarations" for some reason if any variables are declared
-    in this header. Hopefully not any other headers I introduce will have the same 
-    issue when compiling.
-*/
+extern int32_t emotionValue; // Stores most recent scanned emotion
+extern bool emotionDetected; // Has there been a recent (unused) emotion pickup?
+// Set to true after a successful scan, set back to false once read is complete
 
 #endif
