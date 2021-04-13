@@ -34,5 +34,5 @@
 # Local VS Code Config
 .vscode/
 
-# CNN File
-*.pth
+# CNN training data file
+train_split.pth
