@@ -1,19 +1,11 @@
-#!/usr/bin/env python3
-import torch
-import torch.nn as nn
-import argparse
-from tqdm.auto import tqdm
-import matplotlib.pyplot as plt
-#
-# Parse the input arguments.
-def getInputArgs():
-    parser = argparse.ArgumentParser('Sample for training an emotion classification model.')
-    parser.add_argument('--gpu', dest='gpu', default=torch.cuda.is_available(), type=bool, help='Use gpu for training')
+.add_argument('--gpu', dest='gpu', default=torch.cuda.is_available(), type=bool, help='Use gpu for training')
     parser.add_argument('--nepoch', dest='nepoch', default=50, type=int, help='Number of training epochs')
     parser.add_argument('--mdl', dest='mdl', default=None, type=str, help='Model to load')
     parser.add_argument('--val', dest='val', action='store_true', help='Get validation score')
+    parser.add_argument('-f')
     args = parser.parse_args()
     return args
+
 class EmotionClassificationNet(nn.Module):
 
     def __init__(self):
@@ -55,8 +47,10 @@ class EmotionClassificationNet(nn.Module):
             nn.Linear(512, 256),
             nn.ReLU(),
             nn.Dropout(0.25),
-            nn.Linear(256, 7)
-
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Dropout(0.25),
+            nn.Linear(128, 7)
         )
 
     def forward(self, x, test_mode=False):
@@ -71,14 +65,13 @@ class EmotionClassificationNet(nn.Module):
 
 def getDataset(args):
     import pathlib
-    if pathlib.Path('./train_split.pth').exists():
-        train_imgs, train_labels = torch.load('train_split.pth')
+    
+    pathToData = './train_split.pth' # Path to training data file
 
-        # Set a mask to select samples used to validate
+    if pathlib.Path(pathToData).exists():
+        train_imgs, train_labels = torch.load(pathToData)
         probs = torch.ones(train_imgs.shape[0]) * 0.3
         val_set_mask = torch.bernoulli(probs).bool()
-
-        # Use mask to store validation images and then use the remainder for training
         val_imgs = train_imgs[val_set_mask]
         val_labels = train_labels[val_set_mask]
         train_imgs = train_imgs[~val_set_mask]
@@ -95,14 +88,10 @@ def getDataloader(args):
     
     # Due to class imbalance introduce a weighted random sampler to select rare classes more often.
     batch_size = 128
-
-    # Weigh images on the inverse frequency of their class in the set 
     weights_label = train[1].unique(return_counts=True, sorted=True)[1].float().reciprocal()
     weights = torch.zeros_like(train[1], dtype=torch.float)
     for idx, label in enumerate(train[1]):
         weights[idx] = weights_label[label]
-
-    # Grab data as weighed
     sampler = torch.utils.data.sampler.WeightedRandomSampler(weights, len(weights))
     
     # Create the dataloaders for the different datasets.
@@ -113,7 +102,6 @@ def getDataloader(args):
     return train_loader, val_loader
 
 def train_loop(mdl, loss_fn, optim, dl, device):
-    print('')
     pbar = tqdm(dynamic_ncols=True, total=int(len(dl)))
     n_batch_loss = 50
     running_loss = 0
@@ -141,7 +129,6 @@ def train_loop(mdl, loss_fn, optim, dl, device):
     return mdl
 
 def calc_acc(mdl, dl, dl_type, device):
-    print('')
     with torch.no_grad():
         pbar = tqdm(dynamic_ncols=True, total=int(len(dl)))
         total = 0
@@ -164,7 +151,7 @@ if __name__ == "__main__":
     train_dl, val_dl = getDataloader(args)
     mdl = EmotionClassificationNet()
     ce_loss = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(mdl.parameters())
+    optimizer = torch.optim.Adam(mdl.parameters()) #, lr=0.005) # Learning rate adjusted here
     device = torch.device('cpu')
     if args.gpu:
         device = torch.device('cuda:0')
@@ -181,16 +168,23 @@ if __name__ == "__main__":
         # Training loop.
         best_val = -float('inf')
         for epoch in range(args.nepoch):
-            print('Train loop')
+            print('Train loop ' + str(epoch + 1) + ' of ' + str(args.nepoch))
+
+            # Train model
             mdl.train(True)
-            mdl = train_loop(mdl, ce_loss, optimizer, train_dl, device)
-            print('Train ACC loop')
-            mdl.train(False)
-            train_acc = calc_acc(mdl, train_dl, 'train', device)
-            print('Val ACC loop')
-            val_acc = calc_acc(mdl, val_dl, 'val', device)
+            mdl = train_loop(mdl, ce_loss, optimizer, train_dl, device) 
+
+            # Validate model
+            mdl.train(False) 
+            train_acc = calc_acc(mdl, train_dl, 'train', device) # Check model to its training data
+            val_acc = calc_acc(mdl, val_dl, 'val', device) # Validate run with seperate (validation) data
             
-            # Early stopping.
+            # Update best model
             if val_acc > best_val:
                 best_val = val_acc
+                best_train = train_acc
                 torch.save(mdl.state_dict(), 'mdl_best.pth')
+                
+        print('Done training the model!')
+        outputReview = 'BEST VAL ACC: %.2f | TRN ACC: %.2f'%(best_val * 100.0, best_train * 100.0)
+        print(outputReview)
