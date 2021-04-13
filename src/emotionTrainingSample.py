@@ -2,7 +2,7 @@
     parser.add_argument('--nepoch', dest='nepoch', default=50, type=int, help='Number of training epochs')
     parser.add_argument('--mdl', dest='mdl', default=None, type=str, help='Model to load')
     parser.add_argument('--val', dest='val', action='store_true', help='Get validation score')
-    parser.add_argument('-f')
+    parser.add_argument('-f') # Added for use in Google Colab
     args = parser.parse_args()
     return args
 
@@ -184,7 +184,7 @@ if __name__ == "__main__":
                 best_val = val_acc
                 best_train = train_acc
                 torch.save(mdl.state_dict(), 'mdl_best.pth')
-                
+
         print('Done training the model!')
         outputReview = 'BEST VAL ACC: %.2f | TRN ACC: %.2f'%(best_val * 100.0, best_train * 100.0)
         print(outputReview)
