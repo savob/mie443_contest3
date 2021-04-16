@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     explore.start();
 
     // Emotion node
-    ros::Subscriber emotion = n.subscribe("/detected_emotion", 1, &emotionCallback);
+    ros::Subscriber emotionSub = n.subscribe("/detected_emotion", 1, &emotionCallback);
 
     while(ros::ok()) {
         ros::spinOnce();

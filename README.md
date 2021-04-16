@@ -11,26 +11,27 @@ NOTE: Each one of these lines need to be executed in seperate terminal windows, 
 NOTE: the file path at the end of the third command "roslaunch turtlebot_..." needs to be adjusted for the testing computer so it points to the right map file for the contest.
 
 clear; cd ~/catkin_ws/; catkin_make
+conda deactivate; roslaunch mie443_contest3 turtlebot_world.launch world:=practice
+conda deactivate; roslaunch mie443_contest3 gmapping.launch
+conda activate mie443; cd ~/catkin_ws/src/mie443_contest3/src/; python victimLocator.py
+cd ~/catkin_ws/src/mie443_contest3/src/; python emotionClassifier.py
 
-#TODO: Add other commands needed
+roslaunch mie443_contest3 contest3.launch
+rosrun sound_play soundplay_node.py
 
-rosrun mie443_contest3 contest3
-
-If a visualization of the state of the robot's localization is desired during the run, execute the following command in a seperate terminal either right before "rosrun mie443_contest3 contest3" or after it.
+If a visualization of the state of the robot's localization is desired during the run, execute the following command in a seperate terminal either right before "roslaunch mie443_contest3 contest3.launch" or after it.
 
 roslaunch turtlebot_rviz_launchers view_navigation.launch
 
 ## Commands required after the code executes
 There are no commands needed once execution is complete. However the results can be quickly reached and read in terminal by issuing the following command:
 
-nano ~/Documents/team22results.txt 
+nano ~/catkin_ws/src/mie443_contest3/src/detectedVictim.txt 
 
 ## Computer specific file locations in our code
 There are no computer specific file locations that need to be modified in our code if our diectory has been downloaded in its entirety to the user's catkin workspace properly. 
 
-However there is the map string mentioned when initiating the robot's code.
-
 ## Output file
-The output file will be stored in the documents folder ($HOME/Documents/, typically ~/Documents/) as "team22result.txt", for an overall location of:
+The output file will be stored in the "src" folder of this package as "detectedVictim.txt", for an overall location of:
 
-~/Documents/team22results.txt
+~/catkin_ws/src/mie443_contest3/src/detectedVictim.txt
