@@ -36,3 +36,6 @@
 
 # CNN training data file
 train_split.pth
+
+# Results of search
+detectedVictim.txt
