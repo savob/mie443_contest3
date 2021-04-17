@@ -7,10 +7,17 @@
 #include "movement.h"
 #include <sound_play/sound_play.h>
 
+#include <opencv2/core.hpp>
+#include <cv.h>
+#include <cv_bridge/cv_bridge.h>
+#include "opencv2/highgui.hpp"
+
 void emotionCallback (const std_msgs::Int32::ConstPtr& msg);
 int32_t readEmotion(void); // Returns most recent emotion scanned
 void clearEmotionState(void); // Clears emotion handler
 void emotionReaction(sound_play::SoundClient &sc); // Handles emotion reactions
+
+void showImage(std::string fileLocation); // Show an image on screen
 
 /*
     0=Angry

@@ -20,13 +20,9 @@ int main(int argc, char** argv) {
     // Setup ROS.
     ros::init(argc, argv, "contest3");
     ros::NodeHandle n;
-    
+
     // Class to handle sounds.
     sound_play::SoundClient sc;
-    
-    // The code below shows how to play a sound.
-    std::string path_to_sounds = ros::package::getPath("mie443_contest3") + "/sounds/";
-    sc.playWave(path_to_sounds + "sound.wav");
     
     // Emotion node
     ros::Subscriber emotionSub = n.subscribe("/detected_emotion", 1, &emotionCallback);
