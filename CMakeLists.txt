@@ -54,6 +54,7 @@ add_executable(contest3
     src/explore.cpp
     src/frontier_search.cpp
     src/emotionHandling.cpp
+    src/movement.cpp
     )
 target_link_libraries(contest3
     ${catkin_LIBRARIES}
