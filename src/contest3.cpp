@@ -15,7 +15,7 @@
 int main(int argc, char** argv) {
     // Monitor time elapsed
     time_t startTime = time(NULL);
-    float secondsElapsed = 0;
+    time_t secondsElapsed = 0;
 
     // Setup ROS.
     ros::init(argc, argv, "contest3");
@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
     // Output closing messages
     std::cout << std::endl; // Seperate from previous messages
     secondsElapsed = time(NULL) - startTime;
-    ROS_INFO("Program execution took %.2f seconds to complete.", secondsElapsed);
+    ROS_INFO("Program execution took %d seconds to complete.", int(secondsElapsed));
     ROS_FATAL("TERMINATING PROGRAM");
     return 0;
 }
