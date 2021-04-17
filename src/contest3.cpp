@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
         if (readEmotion() >= 0) {
 #ifdef EMOTION_BYPASS
             ROS_WARN("BYPASSING EMOTION CODE");
+            victimsEncountered++; // Increment victim count as though they were handled
             clearEmotionState();
 #else
             // Sieze manual control of motion for motional reactions
