@@ -6,8 +6,9 @@
 #include <std_msgs/Int32.h> // Emotion messages
 
 void emotionCallback (const std_msgs::Int32::ConstPtr& msg);
-int32_t readEmotion(void); // Returns most recent emotion scanned and records the read
+int32_t readEmotion(void); // Returns most recent emotion scanned
 bool newEmotion(void); // Returns if there has been a recent (unread) scan
+void clearEmotionState(void); // Clears emotion handler
 
 /*
     0=Angry

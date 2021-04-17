@@ -25,13 +25,19 @@ void emotionCallback(const std_msgs::Int32::ConstPtr& msg) {
     emotionDetected = true;
 }
 
-// Returns most recent emotion scanned and records the read
+// Returns most recent emotion scanned
 int32_t readEmotion(void) {
-    emotionDetected = false;
+    //emotionDetected = false; // Record the scan
     return emotionValue;
 }
 
 // Returns scan status
 bool newEmotion(void) {
     return emotionDetected;
+}
+
+// Clear the emotion handler state
+void clearEmotionState(void) {
+    emotionDetected = false;
+    emotionValue = -1;
 }
