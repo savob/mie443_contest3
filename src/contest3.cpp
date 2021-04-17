@@ -60,9 +60,8 @@ int main(int argc, char** argv) {
         if (readEmotion() >= 0) {
             explore.stop();
 
-            int emotionIn = readEmotion();
             // Handle new emotion
-
+            emotionReaction(sc);
 
             // Are we done with the remotion state?
             if (readEmotion() < 0) {

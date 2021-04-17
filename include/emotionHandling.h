@@ -4,11 +4,14 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include <std_msgs/Int32.h> // Emotion messages
+#include "movement.h"
+#include <sound_play/sound_play.h>
 
 void emotionCallback (const std_msgs::Int32::ConstPtr& msg);
 int32_t readEmotion(void); // Returns most recent emotion scanned
 bool newEmotion(void); // Returns if there has been a recent (unread) scan
 void clearEmotionState(void); // Clears emotion handler
+void emotionReaction(sound_play::SoundClient &sc); // Handles emotion reactions
 
 /*
     0=Angry
