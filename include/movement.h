@@ -6,6 +6,7 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_datatypes.h>
+#include <time.h>
 
 #define RAD2DEG(rad) ((rad) * 180. / M_PI)
 #define DEG2RAD(deg) ((deg) * M_PI / 180.)
@@ -26,6 +27,8 @@ extern const float MAX_ROT;
 void odomCallback (const nav_msgs::Odometry::ConstPtr& msg);
 bool monitorMotion ();
 void setMotion(double dist, double linSpeed, double rot, double rotSpeed);
+
+bool checkIfMoved(); // Monitors if the robot is moving
 
 /** @name travel
    *  @brief Use this for controlled travel by repeatedly calling it.

@@ -178,3 +178,54 @@ bool setHeading(float heading, float speed)
     if (doneAlignment) ROS_INFO("Aligned with new heading.");
     return doneAlignment;
 }
+
+bool checkIfMoved() {
+    const float minMotion = 0.5;
+    const float recordingStep = 0.5; // Time in seconds between location recordings
+    const int numRecordings = 10; // Number of recordings to store
+    static float targetTime = time(NULL);
+
+    static bool didItMove = false;
+
+    static int curRecording = 0; // Current point in buffer
+    static float xRec[numRecordings], yRec[numRecordings];
+
+    // Periodically check if robot moved
+    if (targetTime > time(NULL)) {
+        targetTime = time(NULL) + recordingStep; // Set next time
+
+        // Record current position into buffer
+        xRec[curRecording] = posX;
+        yRec[curRecording] = posY;
+
+        // Find total distance traversed over the last set of steps
+        float travelDist = 0.0;
+
+        for (int i = (curRecording - 1); i != curRecording; i--) {
+            float temp, dx, dy;
+            if (i < 0) {
+                // Handle loop around
+                dx = xRec[numRecordings - 1] - xRec[0];
+                dy = yRec[numRecordings - 1] - yRec[0];
+                i = numRecordings - 1; // Move i to end
+            }
+            else {
+                dx = xRec[i] - xRec[i + 1];
+                dy = yRec[i] - yRec[i + 1];
+            }
+            // Add incremental distance to total
+            temp = dx * dx + dy * dy;
+            travelDist += sqrt(temp); 
+        }
+
+        // Increment to next buffer spot
+        curRecording++;
+        curRecording = curRecording % numRecordings;
+
+        // Draw conclusion
+        if (travelDist > minMotion) didItMove = true;
+        else didItMove =false;
+    }
+
+    return didItMove;
+}

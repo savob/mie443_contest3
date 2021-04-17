@@ -66,6 +66,7 @@ int main(int argc, char** argv) {
         }
         else {
             // We're currently exploring
+
             if (spinInPlace) {
                 // Manually spin in a circle
                 manualOverride = true;
@@ -73,12 +74,20 @@ int main(int argc, char** argv) {
 
                 // Check if we're done
                 if (spinInPlace == false) {
-                    ROS_INFO("Done spinning in the spot. Emotion %d", readEmotion());
+                    ROS_INFO("Done spinning in the spot.");
                     manualOverride = false; // Release control
                 }
             }
-
-            // TODO: add code to monitor distance travelled over last period and see if it is enough motion if not, do a spin
+            else {
+                // Check if we've moved and if not spin in place
+                if (checkIfMoved() == false) {
+                    ROS_WARN("Robot detected as stationary. Initiating spin move.");
+                    spinInPlace = true;
+                }
+                else {
+                    // Carry on exploring hero
+                }
+            }
         }
 
         // Are we manually controlling robot motion
