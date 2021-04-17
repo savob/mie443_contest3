@@ -10,7 +10,9 @@
     6=Neutral
 */
 
-int32_t emotionValue; // Stores most recent scanned emotion
+const char *emotionName[7] = { "Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise", "Neutral"}; // Emotion descriptions
+
+int32_t emotionValue = -1; // Stores most recent scanned emotion (-1 if no emotion found/present)
 bool emotionDetected; // Has there been a recent (unused) emotion pickup?
 // Set to true after a successful scan, set back to false once read is complete
 
@@ -18,7 +20,7 @@ bool emotionDetected; // Has there been a recent (unused) emotion pickup?
 // Currently just states and records the emotion
 void emotionCallback(const std_msgs::Int32::ConstPtr& msg) {
     emotionValue = msg->data;
-    ROS_INFO("Emotion %d detected. Terminating lifeform.", emotionValue);
+    ROS_INFO("Emotion %d detected (%s). Terminating lifeform.", emotionValue, emotionName[emotionValue]);
 
     emotionDetected = true;
 }

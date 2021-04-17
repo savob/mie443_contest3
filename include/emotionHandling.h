@@ -18,8 +18,8 @@ bool newEmotion(void); // Returns if there has been a recent (unread) scan
     5=Surprise
     6=Neutral
 */
-
-extern int32_t emotionValue; // Stores most recent scanned emotion
+extern const char *emotionName[7]; // Emotion descriptions
+extern int32_t emotionValue; // Stores most recent scanned emotion (-1 if no emotion found/present)
 extern bool emotionDetected; // Has there been a recent (unused) emotion pickup?
 // Set to true after a successful scan, set back to false once read is complete
 
