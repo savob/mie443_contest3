@@ -23,6 +23,10 @@ If a visualization of the state of the robot's localization is desired during th
 
 roslaunch turtlebot_rviz_launchers view_navigation.launch
 
+Use the following command for tele operation for testing.
+
+roslaunch turtlebot_teleop keyboard_teleop.launch 
+
 ## Commands required after the code executes
 There are no commands needed once execution is complete. However the results can be quickly reached and read in terminal by issuing the following command:
 
