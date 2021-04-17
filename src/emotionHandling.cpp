@@ -271,6 +271,7 @@ int32_t readEmotion(void) {
 
 // Clear the emotion handler state
 void clearEmotionState(void) {
+    showImage(pathToImages + "neutral.png"); // Normal image for victims between reactions
     emotionValue = -1;
 }
 
