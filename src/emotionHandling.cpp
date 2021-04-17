@@ -25,52 +25,194 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
     static int emotionStep = 0;
     bool goToNextStep = false;
 
+    const int soundPause = 5; // Length to sleep after each audio track
+
     // Handle appropriate emotion
     if (emotionValue == 0) {
         // Respond to anger with resentment
 
         if (emotionStep == 0) {
-            // Roar
-            soundPlayer.playWave(pathToSounds + "sound.wav");
+            soundPlayer.playWave(pathToSounds + "resentment1.wav");
+            showImage(pathToImages + "resentment.png");
+            sleep(soundPause);
             emotionStep++; // Go to next step
         }
         else if (emotionStep == 1) {
-            // Ram them in the shin
-            goToNextStep = travel(0.5,FAST_MOVE,0,0);
+            // Turn around
+            goToNextStep = travel(0,0,M_PI,FAST_SPIN);
             if (goToNextStep) emotionStep++; // Go to next step once done moving
         }
         else if (emotionStep == 2) {
-            // Retreat
-            goToNextStep = travel(-0.5,-FAST_MOVE,0,0);
-
-            if (goToNextStep) clearEmotionState(); // Clear emotion reaction once done reaction (movement)
+            goToNextStep = travel(0.3,FAST_MOVE,0,0);
+            if (goToNextStep) emotionStep++;
+        }
+        else if (emotionStep == 3) {
+            // Turn around
+            goToNextStep = travel(0,0,DEG2RAD(-100),-SLOW_SPIN);
+            if (goToNextStep) emotionStep++;
+        }
+        else if (emotionStep == 4) {
+            soundPlayer.playWave(pathToSounds + "resentment2.wav");
+            sleep(soundPause);
+            clearEmotionState(); // Clear emotion reaction once done reaction (movement)
         }
 
     }
     else if (emotionValue == 1) {
         // Respond to disgust with discontent
+
+        if (emotionStep == 0) {
+            soundPlayer.playWave(pathToSounds + "discontent1.wav");
+            showImage(pathToImages + "discontent.png");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 1) {
+            // Go backwards
+            goToNextStep = travel(0.25,-SLOW_MOVE,0,0);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 2) {
+            // Turn around
+            goToNextStep = travel(0,0,M_PI,SLOW_SPIN);
+            if (goToNextStep) emotionStep++;
+        }
+        else if (emotionStep == 3) {
+            soundPlayer.playWave(pathToSounds + "discontent2.wav");
+            sleep(soundPause);
+            clearEmotionState(); // Clear emotion reaction once done reaction (movement)
+        }
     }
     else if (emotionValue == 2) {
         // Respond to fear with embarassment
+
+        if (emotionStep == 0) {
+            soundPlayer.playWave(pathToSounds + "embarrassment1.wav");
+            showImage(pathToImages + "embarrassment.png");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 1) {
+            // Go backwards
+            goToNextStep = travel(-0.4,-SLOW_MOVE,0,0);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 2) {
+            // Turn around a bit
+            goToNextStep = travel(0,0,DEG2RAD(45),-SLOW_SPIN);
+            if (goToNextStep) emotionStep++;
+        }
+        if (emotionStep == 3) {
+            soundPlayer.playWave(pathToSounds + "embarrassment2.wav");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 4) {
+            // Turn around completely
+            goToNextStep = travel(0,0,DEG2RAD(135),-SLOW_SPIN);
+            if (goToNextStep) clearEmotionState();
+        }
         
     }
     else if (emotionValue == 3) {
         // Respond to happiness with positive excitement
+
+        if (emotionStep == 0) {
+            soundPlayer.playWave(pathToSounds + "excited1.wav");
+            showImage(pathToImages + "excited.png");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 1) {
+            // Go Forwards
+            goToNextStep = travel(0.2,FAST_MOVE,0,0);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 2) {
+            // Turn around
+            goToNextStep = travel(0,0,M_PI * 2,FAST_SPIN);
+            if (goToNextStep) emotionStep++;
+        }
+        else if (emotionStep == 3) {
+            soundPlayer.playWave(pathToSounds + "excited2.wav");
+            sleep(soundPause);
+            clearEmotionState(); // Clear emotion reaction once done reaction (movement)
+        }
         
     }
     else if (emotionValue == 4) {
         // Respond to sadness with anger
-        
+
+        if (emotionStep == 0) {
+            soundPlayer.playWave(pathToSounds + "anger1.wav");
+            showImage(pathToImages + "anger.png");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 1) {
+            // Go Forwards
+            goToNextStep = travel(0.2,FAST_MOVE,0,0);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 2) {
+            soundPlayer.playWave(pathToSounds + "anger2.wav");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 3) {
+            // Go Forwards
+            goToNextStep = travel(0.2,FAST_MOVE,0,0);
+            if (goToNextStep) clearEmotionState(); // Clear emotion reaction once done reaction (movement)
+        }
     }
     else if (emotionValue == 5) {
         // Respond to surprise with counter-surprise
+
+        if (emotionStep == 0) {
+            showImage(pathToImages + "surprise.png");
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 1) {
+            // Go backwards
+            goToNextStep = travel(-0.3,-FAST_MOVE,0,0);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 2) {
+            soundPlayer.playWave(pathToSounds + "surprise1.wav");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 3) {
+            // Go Forwards
+            goToNextStep = travel(0.2,SLOW_MOVE,0,0);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 4) {
+            soundPlayer.playWave(pathToSounds + "surprise2.wav");
+            sleep(soundPause);
+            clearEmotionState(); // Clear emotion reaction once done reaction (movement)
+        }
         
     }
     else if (emotionValue == 6) {
         // Respond to neutral with pride
-        
+        if (emotionStep == 0) {
+            soundPlayer.playWave(pathToSounds + "pride1.wav");
+            showImage(pathToImages + "pride.png");
+            sleep(soundPause);
+            emotionStep++; // Go to next step
+        }
+        else if (emotionStep == 1) {
+            // Spin around
+            goToNextStep = travel(0,0,2*M_PI,SLOW_SPIN);
+            if (goToNextStep) emotionStep++; // Go to next step once done moving
+        }
+        else if (emotionStep == 2) {
+            soundPlayer.playWave(pathToSounds + "pride2.wav");
+            sleep(soundPause);
+            clearEmotionState(); // Clear emotion reaction once done reaction (movement)
+        }
     }
-
 
     // Check if we're done processing emotions
     if (emotionValue < 0) {
