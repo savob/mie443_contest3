@@ -3,6 +3,7 @@
 #include "explore.h"
 #include "emotionHandling.h"
 #include "movement.h"
+#include <time.h>
 
 // If you cannot find the sound play library try the following command.
 // sudo apt install ros-kinetic-sound-play
@@ -10,6 +11,10 @@
 #include <ros/console.h>
 
 int main(int argc, char** argv) {
+    // Monitor time elapsed
+    time_t startTime = time(NULL);
+    float secondsElapsed = 0;
+
     // Setup ROS.
     ros::init(argc, argv, "contest3");
     ros::NodeHandle n;
@@ -39,7 +44,7 @@ int main(int argc, char** argv) {
     ROS_WARN("STARTING MAIN LOOP!\n");
     while(ros::ok()) {
         ros::spinOnce();
-        static bool overridingPrev = false; // Store if we were overriding motion or not on previous step
+        static bool overridingPrev = false; // Store overriding motion status on previous step
 
         // Check for emotions
         if (readEmotion() >= 0) {
@@ -80,7 +85,7 @@ int main(int argc, char** argv) {
         if (manualOverride) {
             // Setup control if we just siezed manual control
             if (overridingPrev == false) {
-                ROS_INFO("Taking manual control of motion.");
+                ROS_WARN("Taking manual control of motion.");
                 vel_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1);
             }
 
@@ -92,12 +97,25 @@ int main(int argc, char** argv) {
         // Check if we have just released control this loop iteration
         if ((overridingPrev) && (manualOverride == false)) {
             vel_pub.shutdown(); // Stop override when no longer needed
-            ROS_INFO("Releasing manual control of motion, exploring again.");
+            ROS_WARN("Releasing manual control of motion, exploring again.");
             explore.start(); // Explore again once control is released
         }
 
-        overridingPrev = manualOverride; // Record override state for reference
+        overridingPrev = manualOverride; // Record override state for reference next loop
+        secondsElapsed = time(NULL) - startTime;
         ros::Duration(0.01).sleep();
+
+        // Check if we're done reacting to all expected victims
+        if (victimsEncountered == victimsExpected) {
+            ROS_WARN("Interacted with all %d expected victims. Ending search.", victimsExpected);
+            break;
+        }
     }
+
+    // Output closing messages
+    std::cout << std::endl; // Seperate from previous messages
+    secondsElapsed = time(NULL) - startTime;
+    ROS_INFO("Program execution took %.2f seconds to complete.", secondsElapsed);
+    ROS_FATAL("TERMINATING PROGRAM");
     return 0;
 }
