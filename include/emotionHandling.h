@@ -9,7 +9,6 @@
 
 void emotionCallback (const std_msgs::Int32::ConstPtr& msg);
 int32_t readEmotion(void); // Returns most recent emotion scanned
-bool newEmotion(void); // Returns if there has been a recent (unread) scan
 void clearEmotionState(void); // Clears emotion handler
 void emotionReaction(sound_play::SoundClient &sc); // Handles emotion reactions
 
@@ -23,8 +22,8 @@ void emotionReaction(sound_play::SoundClient &sc); // Handles emotion reactions
     6=Neutral
 */
 extern const char *emotionName[7]; // Emotion descriptions
-extern int32_t emotionValue; // Stores most recent scanned emotion (-1 if no emotion found/present)
-extern bool emotionDetected; // Has there been a recent (unused) emotion pickup?
-// Set to true after a successful scan, set back to false once read is complete
+extern int32_t emotionValue; // Most recent scanned emotion (-1 if no emotion found/present)
+extern int victimsEncountered; // Number of victims encountered thus far
+extern const int victimsExpected; // Expected victim count
 
 #endif
