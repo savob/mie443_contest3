@@ -112,6 +112,7 @@ int main(int argc, char** argv) {
         }
         // Check if we have just released control this loop iteration
         if ((overridingPrev) && (manualOverride == false)) {
+            travel(0, 0, 0, 0); // Reset motion code
             vel_pub.shutdown(); // Stop override when no longer needed
             ROS_WARN("Releasing manual control of motion, exploring again.");
             explore.start(); // Explore again once control is released
