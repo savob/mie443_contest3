@@ -10,7 +10,7 @@
 #include <sound_play/sound_play.h>
 #include <ros/console.h>
 
-#define EMOTION_BYPASS // Used to skip emotion reactions in testing (comment out before proper runs)
+//#define EMOTION_BYPASS // Used to skip emotion reactions in testing (comment out before proper runs)
 
 int main(int argc, char** argv) {
     // Monitor time elapsed
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     ros::Publisher vel_pub;
     geometry_msgs::Twist vel;
     bool spinInPlace = true; // Is rover supposed to be spinning in place
-    bool manualOverride = true; // Are we manually overriding the bot's motion
+    bool manualOverride = spinInPlace; // Are we manually overriding the bot's motion
     // Initialised to true since we want the robot to always start with a scan
 
     // Frontier exploration algorithm.
