@@ -10,6 +10,8 @@
 #include <sound_play/sound_play.h>
 #include <ros/console.h>
 
+#define EMOTION_BYPASS // Used to skip emotion reactions in testing (comment out before proper runs)
+
 int main(int argc, char** argv) {
     // Monitor time elapsed
     time_t startTime = time(NULL);
@@ -48,6 +50,10 @@ int main(int argc, char** argv) {
 
         // Check for emotions
         if (readEmotion() >= 0) {
+#ifdef EMOTION_BYPASS
+            ROS_WARN("BYPASSING EMOTION CODE");
+            clearEmotionState();
+#else
             // Sieze manual control of motion for motional reactions
             if (manualOverride == false) {
                 explore.stop();
@@ -63,6 +69,7 @@ int main(int argc, char** argv) {
                 manualOverride = false;
                 ROS_INFO("Done emotional reaction");
             }
+#endif // EMOTION_BYPASS
         }
         else {
             // We're currently exploring
