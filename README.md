@@ -17,7 +17,7 @@ cd ~/catkin_ws/src/mie443_contest3/src/; conda activate mie443; python victimLoc
 cd ~/catkin_ws/src/mie443_contest3/src/; conda activate mie443; python emotionClassifier.py
 
 roslaunch mie443_contest3 contest3.launch
-rosrun sound_play soundplay_node.py
+conda deactivate; conda deactivate; rosrun sound_play soundplay_node.py
 
 If a visualization of the state of the robot's localization is desired during the run, execute the following command in a seperate terminal either right before "roslaunch mie443_contest3 contest3.launch" or after it.
 
