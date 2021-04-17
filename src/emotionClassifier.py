@@ -22,9 +22,15 @@ class EmotionDetector(object):
         # Python 2.7 syntax.
         super(EmotionDetector, self).__init__()
         
+        # Set hardware type
+        device = torch.device('cpu')
+        if args.gpu:
+            device = torch.device('cuda:0')
+
         # Load your emotion detector.
         self.model = EmotionClassificationNet()
-        self.model.load_state_dict(torch.load(args.model_file))
+        self.model = self.model.to(device)
+        self.model.load_state_dict(torch.load(args.model_file, map_location=device))
         self.model.eval()
         
         # Visualize.
