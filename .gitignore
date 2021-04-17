@@ -30,6 +30,7 @@
 *.exe
 *.out
 *.app
+*.pyc
 
 # Local VS Code Config
 .vscode/
