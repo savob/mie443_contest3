@@ -11,10 +11,10 @@ NOTE: Each one of these lines need to be executed in seperate terminal windows, 
 NOTE: the file path at the end of the third command "roslaunch turtlebot_..." needs to be adjusted for the testing computer so it points to the right map file for the contest.
 
 clear; cd ~/catkin_ws/; catkin_make
-conda deactivate; roslaunch mie443_contest3 turtlebot_world.launch world:=practice
-conda deactivate; roslaunch mie443_contest3 gmapping.launch
-conda activate mie443; cd ~/catkin_ws/src/mie443_contest3/src/; python victimLocator.py
-cd ~/catkin_ws/src/mie443_contest3/src/; python emotionClassifier.py
+conda activate mie443; roslaunch mie443_contest3 turtlebot_world.launch world:=practice
+conda activate mie443; roslaunch mie443_contest3 gmapping.launch
+cd ~/catkin_ws/src/mie443_contest3/src/; conda activate mie443; python victimLocator.py
+cd ~/catkin_ws/src/mie443_contest3/src/; conda activate mie443; python emotionClassifier.py
 
 roslaunch mie443_contest3 contest3.launch
 rosrun sound_play soundplay_node.py
