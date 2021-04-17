@@ -246,7 +246,7 @@ void showImage(std::string fileLocation) {
         cv::resize(img, img,cv::Size(480,480)); // Resize to be visible on the screen
 
         cv::imshow("Current Response", img);
-        cv::waitKey(50); // Wait 50 ms so image appears
+        cv::waitKey(250); // Wait 50 ms so image appears
     }
     catch (...) {
         ROS_ERROR("Failure to read image at following location:\n\t%s", fileLocation.c_str());
