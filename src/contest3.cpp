@@ -124,6 +124,10 @@ int main(int argc, char** argv) {
             ROS_WARN("Interacted with all %d expected victims. Ending search.", victimsExpected);
             break;
         }
+        if (secondsElapsed > 1200) {
+            ROS_FATAL("Ran out of time, 20minutes have passed");
+            break;
+        }
     }
 
     // Output closing messages
