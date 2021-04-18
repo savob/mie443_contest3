@@ -130,6 +130,9 @@ int main(int argc, char** argv) {
         }
     }
 
+    // End exploration
+    explore.stop();
+
     // Output closing messages
     std::cout << std::endl; // Seperate from previous messages
     secondsElapsed = time(NULL) - startTime;
