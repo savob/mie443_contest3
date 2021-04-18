@@ -179,13 +179,14 @@ bool setHeading(float heading, float speed)
     return doneAlignment;
 }
 
-bool checkIfMoved() {
+bool checkIfMoved(explore::Explore &explorer) {
     const float minMotion = 1.0;
     const int recordingStep = 1; // Time in seconds between location recordings
-    const int numRecordings = 20; // Number of recordings to store
+    const int numRecordings = 10; // Number of recordings to store
     static time_t targetTime = time(NULL);
 
     static bool didItMove = true;
+    static bool alreadyStuck = false;
 
     static int curRecording = 0; // Current point in buffer
     static float xRec[numRecordings], yRec[numRecordings];
@@ -230,7 +231,20 @@ bool checkIfMoved() {
             ROS_INFO_ONCE("Done first pass of movement buffer");
 
             // Draw conclusion
-            didItMove = (travelDist > minMotion);
+            if (travelDist > minMotion) {
+                didItMove = true;
+                alreadyStuck = false;
+            }
+            else {
+                didItMove = false;
+                ROS_WARN("Robot appears to be stuck.");
+                
+                if (alreadyStuck) {
+                    ROS_WARN("Already marked as stuck previously, clearing boundary blacklist.");
+                    explorer.frontier_blacklist_.clear();
+                }
+                alreadyStuck = true;
+            }
         }
 
         //ROS_INFO("Travelled %.2f, target %.2f (%d)", travelDist, minMotion, didItMove);

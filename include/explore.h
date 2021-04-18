@@ -67,6 +67,8 @@ public:
   void start();
   void stop();
 
+  std::vector<geometry_msgs::Point> frontier_blacklist_;
+
 private:
   /**
    * @brief  Make a global plan
@@ -97,7 +99,7 @@ private:
   ros::Timer exploring_timer_;
   ros::Timer oneshot_;
 
-  std::vector<geometry_msgs::Point> frontier_blacklist_;
+  
   geometry_msgs::Point prev_goal_;
   double prev_distance_;
   ros::Time last_progress_;

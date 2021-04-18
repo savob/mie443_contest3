@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
             }
             else {
                 // Check if we've moved and if not spin in place
-                if (checkIfMoved() == false) {
+                if (checkIfMoved(explore) == false) {
                     ROS_WARN("Robot detected as stationary. Initiating spin move.");
                     spinInPlace = true;
                 }
