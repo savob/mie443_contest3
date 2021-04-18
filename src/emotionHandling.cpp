@@ -34,6 +34,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         if (emotionStep == 0) {
             soundPlayer.playWave(pathToSounds + "resentment1.wav");
             showImage(pathToImages + "resentment.png");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -53,6 +54,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 4) {
             soundPlayer.playWave(pathToSounds + "resentment2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             clearEmotionState(); // Clear emotion reaction once done reaction (movement)
         }
@@ -64,6 +66,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         if (emotionStep == 0) {
             soundPlayer.playWave(pathToSounds + "discontent1.wav");
             showImage(pathToImages + "discontent.png");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -79,6 +82,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 3) {
             soundPlayer.playWave(pathToSounds + "discontent2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             clearEmotionState(); // Clear emotion reaction once done reaction (movement)
         }
@@ -89,6 +93,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         if (emotionStep == 0) {
             soundPlayer.playWave(pathToSounds + "embarrassment1.wav");
             showImage(pathToImages + "embarrassment.png");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -104,6 +109,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         if (emotionStep == 3) {
             soundPlayer.playWave(pathToSounds + "embarrassment2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -120,6 +126,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         if (emotionStep == 0) {
             soundPlayer.playWave(pathToSounds + "excited1.wav");
             showImage(pathToImages + "excited.png");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -135,6 +142,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 3) {
             soundPlayer.playWave(pathToSounds + "excited2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             clearEmotionState(); // Clear emotion reaction once done reaction (movement)
         }
@@ -146,6 +154,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         if (emotionStep == 0) {
             soundPlayer.playWave(pathToSounds + "anger1.wav");
             showImage(pathToImages + "anger.png");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -156,6 +165,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 2) {
             soundPlayer.playWave(pathToSounds + "anger2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -179,6 +189,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 2) {
             soundPlayer.playWave(pathToSounds + "surprise1.wav");
+            ros::spinOnce();
             sleep(soundPause);
             emotionStep++; // Go to next step
         }
@@ -189,6 +200,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 4) {
             soundPlayer.playWave(pathToSounds + "surprise2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             clearEmotionState(); // Clear emotion reaction once done reaction (movement)
         }
@@ -198,6 +210,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         // Respond to neutral with pride
         if (emotionStep == 0) {
             soundPlayer.playWave(pathToSounds + "pride1.wav");
+            ros::spinOnce();
             showImage(pathToImages + "pride.png");
             sleep(soundPause);
             emotionStep++; // Go to next step
@@ -209,6 +222,7 @@ void emotionReaction(sound_play::SoundClient &soundPlayer) {
         }
         else if (emotionStep == 2) {
             soundPlayer.playWave(pathToSounds + "pride2.wav");
+            ros::spinOnce();
             sleep(soundPause);
             clearEmotionState(); // Clear emotion reaction once done reaction (movement)
         }
