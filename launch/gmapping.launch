@@ -25,7 +25,6 @@
     <param name="odom_frame" value="$(arg odom_frame)"/>
     <param name="map_update_interval" value="1"/> <!-- 1 default -->
     <!-- <param name="maxUrange" value="6.0"/> -->
-    <!-- <param name="maxUrange" value="2.0"/> -->
     <param name="maxUrange" value="2.0"/>
     <param name="maxRange" value="8.0"/>
     <param name="sigma" value="0.05"/>
